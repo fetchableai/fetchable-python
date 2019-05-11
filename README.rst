@@ -22,13 +22,6 @@ Pre-requisites
 * Python 2.7 or 3.4
 * An active Fetchable account.
 
-Install Dependencies
----------------
-
-.. code-block:: sh
-
-  $ pip install -r requirements.txt
-
 Install Package
 ---------------
 
@@ -40,7 +33,7 @@ Install Package
 Setup Environment Variables
 ---------------------------
 
-The library will read your key file from an environment variable. Set the path to the key file as so:
+By default, the library will read your key file from an environment variable. Set the path to the key file as so:
 
 .. code-block:: sh
 
@@ -50,6 +43,44 @@ The library will read your key file from an environment variable. Set the path t
 Usage
 =====
 Once the installation is correctly done, to start fetching data from the index, simply follow these examples.
+
+Constructing the Client Object
+------------------------------
+
+There are three optional parameters which can be passed to the constructor of the FetchableClient object.
+
+1. API version
+
+The verison of the API to be used can be specified with the :code:`api_version` parameter. The parameter is an enum defined in the configuration file which needs to be imported.
+
+.. code-block:: python
+
+  from fetchable import FetchableClient
+  from fetchable import configuration
+
+  client = FetchableClient(api_version=configuration.api_version.v0_1)
+
+1. User agent
+
+The user-agent header to be sent to Fetchable can be set through the :code:`user_agent` parameter. By setting this to something you specify (e.g. :code:`amazing-chatbot/0.1`) and by whitelisting only that through the console you can enhance the security of your account. Only user-agents matching that will be permitted.
+
+.. code-block:: python
+
+  from fetchable import FetchableClient
+
+  client = FetchableClient(user_agent='amazing-chatbot/0.1')
+
+
+1. Authentication credentials
+
+By default, the libary will read your authentication keys from the file specified by the environment variable you set. But you can also specify this through the constructor, this will overide the environment variable.
+
+.. code-block:: python
+
+  from fetchable import FetchableClient
+
+  client = FetchableClient(auth_file='/path/to/file/here.json')
+
 
 
 Entity-Attribute
@@ -88,17 +119,6 @@ Random Quote
       print("I cant connect to the internet right now...")
 
 
-
-Choosing API Version
---------------------
-
-.. code-block:: python
-
-  from fetchable import FetchableClient
-  from fetchable import configuration
-
-
-  client = FetchableClient(api_version=configuration.api_version.v0_1)
 
 
 Contributing

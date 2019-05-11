@@ -14,7 +14,7 @@ setup(name=__name__,
       author=__author__,
       author_email=__author_email__,
       license=__license__,
-      packages=find_packages(exclude=['samples*']),
+      packages=find_packages(exclude=['examples*']),
       long_description=open('README.rst').read(),
       classifiers=[
         'Development Status :: 3 - Alpha',

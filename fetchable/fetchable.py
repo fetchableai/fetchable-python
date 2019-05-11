@@ -19,7 +19,7 @@ class FetchableClient(object):
     """
 
 
-    def __init__(self, api_version=None):
+    def __init__(self, api_version=None, user_agent=None, auth_file=None):
         """
         Constructs Fetchable API Client object.
 
@@ -28,26 +28,33 @@ class FetchableClient(object):
 
         :param api_version: The version of the Fetchable API to use.
         :type api_version: enum
+
+        :param user_agent: The user-agent header to be sent to Fetchable.
+        :type user_agent: string
+
+        :param auth_file: The absolute path to the authentication file.
+        :type auth_file: string
         """
 
         from .__version__ import __version__
         self.api_version = api_version or configuration.api_version.latest
         self.version = __version__
-        self.user_agent = 'fetchable-python-client/{}'.format(self.version)
-        self.host = 'https://api.fetchable.ai'
+        self.user_agent = user_agent or 'fetchable-python-client/{}'.format(self.version)
+        # self.host = 'https://api.fetchable.ai'
+        self.host = "http://localhost:5003"
 
 
 
-        auth_file_path = os.environ.get('FETCHABLE_AUTH_FILE')
+        auth_file_path = auth_file or os.environ.get('FETCHABLE_AUTH_FILE')
         if(not auth_file_path):
             raise Exception('authentication file path environment variable not set')
 
         if(not os.path.isfile(auth_file_path)):
             raise Exception('{} is not a valid authentication file path'.format(auth_file_path))
 
-        auth_file = open(auth_file_path)
+        credentials_file = open(auth_file_path)
         try:
-            self.auth_credentials = json.load(auth_file)
+            self.auth_credentials = json.load(credentials_file)
         except:
             raise Exception('authentication file is not formatted properly')
 
@@ -65,31 +72,31 @@ class FetchableClient(object):
 
         except requests.exceptions.ConnectionError:
             body={}
-            body['status_code'] = 1000
+            body['status_code'] = 1001
             body['reason'] = "Connection error occured"
             return body
 
         except requests.exceptions.HTTPError:
             body={}
-            body['status_code'] = 1001
+            body['status_code'] = 1002
             body['reason'] = "HTTP error occured"
             return body
 
         except requests.exceptions.Timeout:
             body={}
-            body['status_code'] = 1002
+            body['status_code'] = 1003
             body['reason'] = "Timeout error occured"
             return body
 
         except requests.exceptions.TooManyRedirects:
             body={}
-            body['status_code'] = 1003
+            body['status_code'] = 1004
             body['reason'] = "Too many redirects error occured"
             return body
 
         except:
             body={}
-            body['status_code'] = 1003
+            body['status_code'] = 1005
             body['reason'] = "Unknown error occured"
             return body
 
@@ -118,31 +125,31 @@ class FetchableClient(object):
 
         except requests.exceptions.ConnectionError:
             body={}
-            body['status_code'] = 1000
+            body['status_code'] = 1001
             body['reason'] = "Connection error occured"
             return body
 
         except requests.exceptions.HTTPError:
             body={}
-            body['status_code'] = 1001
+            body['status_code'] = 1002
             body['reason'] = "HTTP error occured"
             return body
 
         except requests.exceptions.Timeout:
             body={}
-            body['status_code'] = 1002
+            body['status_code'] = 1003
             body['reason'] = "Timeout error occured"
             return body
 
         except requests.exceptions.TooManyRedirects:
             body={}
-            body['status_code'] = 1003
+            body['status_code'] = 1004
             body['reason'] = "Too many redirects error occured"
             return body
 
         except:
             body={}
-            body['status_code'] = 1003
+            body['status_code'] = 1005
             body['reason'] = "Unknown error occured"
             return body
 
@@ -161,31 +168,31 @@ class FetchableClient(object):
 
         except requests.exceptions.ConnectionError:
             body={}
-            body['status_code'] = 1000
+            body['status_code'] = 1001
             body['reason'] = "Connection error occured"
             return body
 
         except requests.exceptions.HTTPError:
             body={}
-            body['status_code'] = 1001
+            body['status_code'] = 1002
             body['reason'] = "HTTP error occured"
             return body
 
         except requests.exceptions.Timeout:
             body={}
-            body['status_code'] = 1002
+            body['status_code'] = 1003
             body['reason'] = "Timeout error occured"
             return body
 
         except requests.exceptions.TooManyRedirects:
             body={}
-            body['status_code'] = 1003
+            body['status_code'] = 1004
             body['reason'] = "Too many redirects error occured"
             return body
 
         except:
             body={}
-            body['status_code'] = 1003
+            body['status_code'] = 1005
             body['reason'] = "Unknown error occured"
             return body
 
@@ -204,31 +211,84 @@ class FetchableClient(object):
 
         except requests.exceptions.ConnectionError:
             body={}
-            body['status_code'] = 1000
+            body['status_code'] = 1001
             body['reason'] = "Connection error occured"
             return body
 
         except requests.exceptions.HTTPError:
             body={}
-            body['status_code'] = 1001
+            body['status_code'] = 1002
             body['reason'] = "HTTP error occured"
             return body
 
         except requests.exceptions.Timeout:
             body={}
-            body['status_code'] = 1002
+            body['status_code'] = 1003
             body['reason'] = "Timeout error occured"
             return body
 
         except requests.exceptions.TooManyRedirects:
             body={}
-            body['status_code'] = 1003
+            body['status_code'] = 1004
             body['reason'] = "Too many redirects error occured"
             return body
 
         except:
             body={}
+            body['status_code'] = 1005
+            body['reason'] = "Unknown error occured"
+            return body
+
+    def fetchEndpoint(self, endpoint):
+        """
+        Makes a request against a specific endpoint.
+
+        Note: it i up to the caller to construct the endpoint here. This will override the version set in the constructor.
+        Note: must start with a /
+        Examples:   /random/joke
+                    /v0.1/amazon_river_length
+
+        :param entity: The endpoint to make a request against.
+        :type entity: str
+        """
+
+        if type(endpoint) != str:
+            raise Exception('parameters are not strings')
+
+        url = self.host+endpoint
+        try:
+            response = requests.get(url, headers=self.__constructHeaders(endpoint))
+            body = json.loads(response.content)
+            body['status_code'] = response.status_code
+            return body
+
+        except requests.exceptions.ConnectionError:
+            body={}
+            body['status_code'] = 1001
+            body['reason'] = "Connection error occured"
+            return body
+
+        except requests.exceptions.HTTPError:
+            body={}
+            body['status_code'] = 1002
+            body['reason'] = "HTTP error occured"
+            return body
+
+        except requests.exceptions.Timeout:
+            body={}
             body['status_code'] = 1003
+            body['reason'] = "Timeout error occured"
+            return body
+
+        except requests.exceptions.TooManyRedirects:
+            body={}
+            body['status_code'] = 1004
+            body['reason'] = "Too many redirects error occured"
+            return body
+
+        except:
+            body={}
+            body['status_code'] = 1005
             body['reason'] = "Unknown error occured"
             return body
 
