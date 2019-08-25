@@ -40,68 +40,40 @@ class FetchableClient(object):
         self.api_version = api_version or configuration.api_version.latest
         self.version = __version__
         self.user_agent = user_agent or 'fetchable-python-client/{}'.format(self.version)
-        # self.host = 'https://api.fetchable.ai'
-        self.host = "http://localhost:5003"
+        self.host = 'https://api.fetchable.ai'
 
 
 
         auth_file_path = auth_file or os.environ.get('FETCHABLE_AUTH_FILE')
-        if(not auth_file_path):
-            raise Exception('authentication file path environment variable not set')
+        if not auth_file_path:
+            raise Exception('path authentication file not set')
 
-        if(not os.path.isfile(auth_file_path)):
+        if not os.path.isfile(auth_file_path):
             raise Exception('{} is not a valid authentication file path'.format(auth_file_path))
 
         credentials_file = open(auth_file_path)
         try:
             self.auth_credentials = json.load(credentials_file)
+            credentials_file.close()
         except:
             raise Exception('authentication file is not formatted properly')
-
+        if 'api_key' not in self.auth_credentials:
+            raise Exception('authentication file is not formatted properly')
+        if 'api_secret' not in self.auth_credentials:
+            raise Exception('authentication file is not formatted properly')
+        if type(self.auth_credentials['api_key']) != unicode:
+            raise Exception('authentication file is not formatted properly')
+        if type(self.auth_credentials['api_secret']) != unicode:
+            raise Exception('authentication file is not formatted properly')
 
     def status(self):
         """
-        Gets the status of the Fetchable API.
+        Gets the status of the Fetchable API
         """
-        try:
-            response = requests.get(self.host)
-            body = json.loads(response.content)
-            body['status_code'] = response.status_code
-            # print(body)
-            return body
-
-        except requests.exceptions.ConnectionError:
-            body={}
-            body['status_code'] = 1001
-            body['reason'] = "Connection error occured"
-            return body
-
-        except requests.exceptions.HTTPError:
-            body={}
-            body['status_code'] = 1002
-            body['reason'] = "HTTP error occured"
-            return body
-
-        except requests.exceptions.Timeout:
-            body={}
-            body['status_code'] = 1003
-            body['reason'] = "Timeout error occured"
-            return body
-
-        except requests.exceptions.TooManyRedirects:
-            body={}
-            body['status_code'] = 1004
-            body['reason'] = "Too many redirects error occured"
-            return body
-
-        except:
-            body={}
-            body['status_code'] = 1005
-            body['reason'] = "Unknown error occured"
-            return body
+        return self.make_request(None)
 
 
-    def fetch(self, entity, attribute):
+    def fetch_entity_atrribute(self, entity, attribute):
         """
         Fetches an entity-attribute value from the index
 
@@ -111,153 +83,93 @@ class FetchableClient(object):
         :param attribute: The attribute of the entity to fetch.
         :type attribute: str
         """
+        if not entity or not attribute:
+            raise Exception('parameters cannot be null')
 
         if type(entity) != str or type(attribute) != str:
             raise Exception('parameters are not strings')
 
         resource = self.api_version+"/"+entity+"/"+attribute
-        url = self.host+resource
-        try:
-            response = requests.get(url, headers=self.__constructHeaders(resource))
-            body = json.loads(response.content)
-            body['status_code'] = response.status_code
-            return body
-
-        except requests.exceptions.ConnectionError:
-            body={}
-            body['status_code'] = 1001
-            body['reason'] = "Connection error occured"
-            return body
-
-        except requests.exceptions.HTTPError:
-            body={}
-            body['status_code'] = 1002
-            body['reason'] = "HTTP error occured"
-            return body
-
-        except requests.exceptions.Timeout:
-            body={}
-            body['status_code'] = 1003
-            body['reason'] = "Timeout error occured"
-            return body
-
-        except requests.exceptions.TooManyRedirects:
-            body={}
-            body['status_code'] = 1004
-            body['reason'] = "Too many redirects error occured"
-            return body
-
-        except:
-            body={}
-            body['status_code'] = 1005
-            body['reason'] = "Unknown error occured"
-            return body
+        return self.make_request(resource)
 
 
-    def fetchRandomJoke(self):
+    def fetch_word_definition(self, word):
+        """
+        Fetches the definition of a word
+
+        :param word: The word to get the definition of.
+        :type word: str
+        """
+
+        if not word:
+            raise Exception('parameters can not be null')
+
+        if type(word) != str:
+            raise Exception('parameters are not strings')
+
+        resource = self.api_version+"/"+word+"/definition"
+        return self.make_request(resource)
+
+
+    def fetch_random_joke(self):
         """
         Fetches a random joke
         """
         resource = self.api_version+"/random/joke"
-        url = self.host+resource
-        try:
-            response = requests.get(url, headers=self.__constructHeaders(resource))
-            body = json.loads(response.content)
-            body['status_code'] = response.status_code
-            return body
-
-        except requests.exceptions.ConnectionError:
-            body={}
-            body['status_code'] = 1001
-            body['reason'] = "Connection error occured"
-            return body
-
-        except requests.exceptions.HTTPError:
-            body={}
-            body['status_code'] = 1002
-            body['reason'] = "HTTP error occured"
-            return body
-
-        except requests.exceptions.Timeout:
-            body={}
-            body['status_code'] = 1003
-            body['reason'] = "Timeout error occured"
-            return body
-
-        except requests.exceptions.TooManyRedirects:
-            body={}
-            body['status_code'] = 1004
-            body['reason'] = "Too many redirects error occured"
-            return body
-
-        except:
-            body={}
-            body['status_code'] = 1005
-            body['reason'] = "Unknown error occured"
-            return body
+        return self.make_request(resource)
 
 
-    def fetchRandomQuote(self):
+    def fetch_random_quote(self):
         """
         Fetches a random quote
         """
         resource = self.api_version+"/random/quote"
-        url = self.host+resource
-        try:
-            response = requests.get(url, headers=self.__constructHeaders(resource))
-            body = json.loads(response.content)
-            body['status_code'] = response.status_code
-            return body
+        return self.make_request(resource)
 
-        except requests.exceptions.ConnectionError:
-            body={}
-            body['status_code'] = 1001
-            body['reason'] = "Connection error occured"
-            return body
 
-        except requests.exceptions.HTTPError:
-            body={}
-            body['status_code'] = 1002
-            body['reason'] = "HTTP error occured"
-            return body
+    def fetch_random_fun_fact(self):
+        """
+        Fetches a random fun fact
+        """
+        resource = self.api_version+"/random/fun_fact"
+        return self.make_request(resource)
 
-        except requests.exceptions.Timeout:
-            body={}
-            body['status_code'] = 1003
-            body['reason'] = "Timeout error occured"
-            return body
 
-        except requests.exceptions.TooManyRedirects:
-            body={}
-            body['status_code'] = 1004
-            body['reason'] = "Too many redirects error occured"
-            return body
-
-        except:
-            body={}
-            body['status_code'] = 1005
-            body['reason'] = "Unknown error occured"
-            return body
-
-    def fetchEndpoint(self, endpoint):
+    def fetch_endpoint(self, endpoint):
         """
         Makes a request against a specific endpoint.
 
-        Note: it i up to the caller to construct the endpoint here. This will override the version set in the constructor.
+        Note: it is up to the caller to construct the endpoint here. This will override the version set in the constructor.
         Note: must start with a /
         Examples:   /random/joke
                     /v0.1/amazon_river_length
 
-        :param entity: The endpoint to make a request against.
-        :type entity: str
+        :param endpoint: The endpoint to make a request against.
+        :type endpoint: str
         """
+        if not endpoint:
+            raise Exception('parameters can not be null')
 
         if type(endpoint) != str:
             raise Exception('parameters are not strings')
 
-        url = self.host+endpoint
+        return self.make_request(endpoint)
+
+
+
+
+
+    #private functions
+    def make_request(self, resource):
+        """
+        Makes request to Fetchable API and returns the response body.
+        """
         try:
-            response = requests.get(url, headers=self.__constructHeaders(endpoint))
+            if resource:
+                url = self.host+resource
+                response = requests.get(url, headers=self.construct_headers(resource))
+            else: #get status endpoint
+                response = requests.get(self.host)
             body = json.loads(response.content)
             body['status_code'] = response.status_code
             return body
@@ -268,32 +180,29 @@ class FetchableClient(object):
             body['reason'] = "Connection error occured"
             return body
 
-        except requests.exceptions.HTTPError:
-            body={}
-            body['status_code'] = 1002
-            body['reason'] = "HTTP error occured"
-            return body
-
         except requests.exceptions.Timeout:
             body={}
-            body['status_code'] = 1003
+            body['status_code'] = 1002
             body['reason'] = "Timeout error occured"
             return body
 
-        except requests.exceptions.TooManyRedirects:
+        except requests.exceptions.ProxyError:
             body={}
-            body['status_code'] = 1004
-            body['reason'] = "Too many redirects error occured"
+            body['status_code'] = 1003
+            body['reason'] = "Proxy error occured"
             return body
 
         except:
             body={}
-            body['status_code'] = 1005
+            body['status_code'] = 1004
             body['reason'] = "Unknown error occured"
             return body
 
 
-    def __constructHeaders(self, resource):
+    def construct_headers(self, resource):
+        """
+        Constructs headers for the request
+        """
         date = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]+"Z"
         signature_plain = "GET"+resource+date;
         hashed = hmac.new(self.auth_credentials['api_secret'].encode('ascii','ignore'),
