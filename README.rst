@@ -18,7 +18,7 @@ Installation
 ============
 
 Pre-requisites
--------------
+--------------
 
 * Python 2.7 or 3.4
 * An active Fetchable account.
@@ -90,7 +90,7 @@ By default, the libary will attempt to read your authentication keys from the fi
 Fetching from endpoints
 -----------------------
 
-Once the installation has been completed and the object has been constructed, you can begin making calls against the API endpoints. Note: these endpoints only cover version v0.1 of the API, visit the endpoint `documentation <https://fetchable.ai/docs/api/endpoints>`_ for more details on these.
+Once the installation has been completed and the object has been constructed, you can begin making calls against the API endpoints. Note: these endpoints only cover version v0.1 of the API, visit the `endpoint <https://fetchable.ai/docs/api/endpoints>`_ documentation for more details on these.
 
 1. API status endpoint
 
