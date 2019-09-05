@@ -1,3 +1,4 @@
+import six
 
 import os
 import json
@@ -61,9 +62,9 @@ class FetchableClient(object):
             raise Exception('authentication file is not formatted properly')
         if 'api_secret' not in self.auth_credentials:
             raise Exception('authentication file is not formatted properly')
-        if type(self.auth_credentials['api_key']) != unicode:
+        if type(self.auth_credentials['api_key']) != six.text_type:
             raise Exception('authentication file is not formatted properly')
-        if type(self.auth_credentials['api_secret']) != unicode:
+        if type(self.auth_credentials['api_secret']) != six.text_type:
             raise Exception('authentication file is not formatted properly')
 
     def status(self):
@@ -204,14 +205,15 @@ class FetchableClient(object):
         Constructs headers for the request
         """
         date = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]+"Z"
-        signature_plain = "GET"+resource+date;
+        signature_plain = ('GET'+resource+date).encode();
+
         hashed = hmac.new(self.auth_credentials['api_secret'].encode('ascii','ignore'),
             signature_plain,
             hashlib.sha1)
-        signature1 = hashed.hexdigest()
+        signature1 = hashed.hexdigest().encode()
         signature2 = base64.urlsafe_b64encode(signature1)
         header = {
-            "authorization": "Fetchable "+self.auth_credentials['api_key']+":"+signature2,
+            "authorization": "Fetchable "+self.auth_credentials['api_key']+":"+signature2.decode(),
             "date": date,
             "user-agent": self.user_agent
         }

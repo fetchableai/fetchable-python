@@ -1,9 +1,11 @@
 from fetchable import FetchableClient
 from fetchable import configuration
 
-
-client = FetchableClient(api_version=configuration.api_version.latest)
-
+try:
+    client = FetchableClient(api_version=configuration.api_version.latest)
+except:
+    print("problem initialising Fetchable client object")
+    exit()
 
 """
 get the status of Fetchable API
