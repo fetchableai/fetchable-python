@@ -20,11 +20,13 @@ Installation
 Pre-requisites
 --------------
 
-* Python 2.7 or 3.4
+* Python 2.7 or 3.6
 * An active Fetchable account.
 
 Install Package
 ---------------
+
+The recommended way to install this package is through pip (or pip3) as follows:
 
 .. code-block:: sh
 
