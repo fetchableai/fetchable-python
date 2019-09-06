@@ -50,9 +50,9 @@ else:
 
 
 """
-fetch a random joke
+fetch a joke
 """
-joke_response = client.fetch_random_joke()
+joke_response = client.fetch_joke()
 
 if(joke_response['status_code']==200):
     print("{} - {}".format(joke_response['setup'], joke_response['punchline']))
@@ -63,9 +63,9 @@ else:
 
 
 """
-fetch a random quote
+fetch a quote
 """
-quote_response = client.fetch_random_quote()
+quote_response = client.fetch_quote()
 
 if(quote_response['status_code']==200):
     print("{} by {}".format(quote_response['quote'], quote_response['author']))
@@ -77,7 +77,7 @@ else:
 """
 fetch a fun fact
 """
-fun_fact_response = client.fetch_random_fun_fact()
+fun_fact_response = client.fetch_fun_fact()
 
 if(fun_fact_response['status_code']==200):
     print(fun_fact_response['fun_fact'])

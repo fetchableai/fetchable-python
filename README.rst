@@ -1,5 +1,5 @@
 =================================
-Fetchable: Client Side Python SDK
+Fetchable: Python Client Side SDK
 =================================
 
 This is the Fetchable client-side Software Development Kit (SDK) for Python. It allows developers of robots, smart speakers, voice assistants, etc. to quickly develop programs that make calls to the Fetchable API. The library has only been tested on Ubuntu systems so far.
@@ -152,7 +152,7 @@ Used to fetch the definitions of words.
       print(definition_response)
 
 
-4. Random joke
+4. Joke endpoint
 
 .. code-block:: python
 
@@ -160,7 +160,7 @@ Used to fetch the definitions of words.
 
   client = FetchableClient()
 
-  joke_response = client.fetch_random_joke()
+  joke_response = client.fetch_joke()
 
   if(joke_response['status_code']==200):
       print("{} - {}".format(joke_response['setup'], joke_response['punchline']))
@@ -169,7 +169,7 @@ Used to fetch the definitions of words.
   else:
       print(joke_response)
 
-5. Random quote
+5. Inspirational quote endpoint
 
 .. code-block:: python
 
@@ -177,7 +177,7 @@ Used to fetch the definitions of words.
 
   client = FetchableClient()
 
-  quote_response = client.fetch_random_quote()
+  quote_response = client.fetch_quote()
 
   if(quote_response['status_code']==200):
       print("{} by {}".format(quote_response['quote'], quote_response['author']))
@@ -186,7 +186,7 @@ Used to fetch the definitions of words.
   else:
       print(quote_response)
 
-4. Random fun fact
+4. Fun fact endpoint
 
 .. code-block:: python
 
@@ -194,7 +194,7 @@ Used to fetch the definitions of words.
 
   client = FetchableClient()
 
-  fun_fact_response = client.fetch_random_fun_fact()
+  fun_fact_response = client.fetch_fun_fact()
 
   if(fun_fact_response['status_code']==200):
       print(fun_fact_response['fun_fact'])

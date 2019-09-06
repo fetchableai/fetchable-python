@@ -41,7 +41,8 @@ class FetchableClient(object):
         self.api_version = api_version or configuration.api_version.latest
         self.version = __version__
         self.user_agent = user_agent or 'fetchable-python-client/{}'.format(self.version)
-        self.host = 'https://api.fetchable.ai'
+        # self.host = 'https://api.fetchable.ai'
+        self.host = 'http://localhost:5003'
 
 
 
@@ -112,25 +113,25 @@ class FetchableClient(object):
         return self.make_request(resource)
 
 
-    def fetch_random_joke(self):
+    def fetch_joke(self):
         """
-        Fetches a random joke
+        Fetches a joke
         """
         resource = self.api_version+"/random/joke"
         return self.make_request(resource)
 
 
-    def fetch_random_quote(self):
+    def fetch_quote(self):
         """
-        Fetches a random quote
+        Fetches a quote
         """
         resource = self.api_version+"/random/quote"
         return self.make_request(resource)
 
 
-    def fetch_random_fun_fact(self):
+    def fetch_fun_fact(self):
         """
-        Fetches a random fun fact
+        Fetches a fun fact
         """
         resource = self.api_version+"/random/fun_fact"
         return self.make_request(resource)
@@ -142,7 +143,7 @@ class FetchableClient(object):
 
         Note: it is up to the caller to construct the endpoint here. This will override the version set in the constructor.
         Note: must start with a /
-        Examples:   /random/joke
+        Examples:   /ameliorate/definition
                     /v0.1/amazon_river_length
 
         :param endpoint: The endpoint to make a request against.
