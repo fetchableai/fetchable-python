@@ -33,7 +33,12 @@ Initial public release with:
 -----------------------------
 * Added compatibility between Python 2.7 and 3.6.
 
-0.1.2 (unknown)
---------------------
+0.1.2 (Released Sept 6, 2019)
+-----------------------------
 * Cheekily changed public-facing interface since still in Alpha and no users will be affected - removed 'random' from fun fact, joke and quote functions.
 * Added a change log and updated `Contributing Guide <CONTRIBUTING.rst>`_ guide.
+
+0.1.3 (Released Sept 6, 2019)
+-----------------------------
+* Bugfixes in fetchable client object
+* Fixed errata in readme and changelog

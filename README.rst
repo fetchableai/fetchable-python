@@ -126,7 +126,7 @@ This endpoint is used to fetch the attributes of entities in our index.
   entity_response = client.fetch_entity_atrribute("mount_everest", "elevation")
 
   if(entity_response['status_code']==200):
-      print("The height of mount_everest is {} {}s.".format(entity_response['value'], entity_response['unit']))
+      print("The height of mount_everest is {} {}.".format(entity_response['value'], entity_response['unit']))
   elif(entity_response['status_code']==1001):
       print("Can't connect to the internet right now...")
   else:

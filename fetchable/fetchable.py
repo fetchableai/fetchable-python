@@ -41,8 +41,7 @@ class FetchableClient(object):
         self.api_version = api_version or configuration.api_version.latest
         self.version = __version__
         self.user_agent = user_agent or 'fetchable-python-client/{}'.format(self.version)
-        # self.host = 'https://api.fetchable.ai'
-        self.host = 'http://localhost:5003'
+        self.host = 'https://api.fetchable.ai'
 
 
 
