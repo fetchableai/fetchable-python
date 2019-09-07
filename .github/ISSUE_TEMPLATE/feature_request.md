@@ -16,7 +16,7 @@ It would be much better if [...] because [...]
 Please provide a clear and concise description of what you envision the solution being.
 
 ## Are there any alternative approaches?
-Please provide a clear and concise description of any other approaches, solutions or features you've considered.
+Please provide a clear and concise description of any other approaches, solutions or features you've considered; and why this is better.
 
 ## Who is requesting this feature?
 Please provide details about yourself, e.g. company, person, role, use case, technologies used, etc.

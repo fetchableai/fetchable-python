@@ -68,13 +68,13 @@ The verison of the API to be used can be specified with the :code:`api_version` 
 
 2. User agent
 
-The FetchableClient object allows you to set your own user-agent header, this can be done through the :code:`user_agent` parameter in the format :code:`<custom-user-agent>/<version>` where :code:`version` takes the form  :code:`v0.1`, :code:`v0.2`, :code:`v1.0`, etc. By setting this to something relevant to only your application (e.g. :code:`amazing-chatbot/0.1`) and by whitelisting only that value through the console you can enhance the security of your account and distinguish between different applications. The default is value is :code:`fetchable-python-client/v?.?`.
+The FetchableClient object allows you to set your own user-agent header, this can be done through the :code:`user_agent` parameter in the format :code:`<custom-user-agent>/<version>` where :code:`version` takes the form  :code:`0.1.0`, :code:`0.2.0`, :code:`1.0.0`, etc. By setting this to something relevant to only your application (e.g. :code:`my-amazing-chatbot/0.1`) and by whitelisting only that value through the console you can enhance the security of your account and distinguish between different applications. The default is value is :code:`fetchable-python-client/x.y.z`.
 
 .. code-block:: python
 
   from fetchable import FetchableClient
 
-  client = FetchableClient(user_agent='amazing-chatbot/0.1')
+  client = FetchableClient(user_agent='my-amazing-chatbot/0.1')
 
 
 3. Authentication credentials
