@@ -90,6 +90,10 @@ class FetchableClient(object):
         if type(entity) != str or type(attribute) != str:
             raise Exception('parameters are not strings')
 
+
+        entity = self.sanitise_parameter(entity)
+        attribute = self.sanitise_parameter(attribute)
+
         resource = self.api_version+"/"+entity+"/"+attribute
         return self.make_request(resource)
 
@@ -107,6 +111,8 @@ class FetchableClient(object):
 
         if type(word) != str:
             raise Exception('parameters are not strings')
+
+        word = self.sanitise_parameter(word)
 
         resource = self.api_version+"/"+word+"/definition"
         return self.make_request(resource)
@@ -141,6 +147,7 @@ class FetchableClient(object):
         Makes a request against a specific endpoint.
 
         Note: it is up to the caller to construct the endpoint here. This will override the version set in the constructor.
+        Note: no parameter sanitisation is performed.
         Note: must start with a /
         Examples:   /ameliorate/definition
                     /v0.1/amazon_river_length
@@ -159,8 +166,11 @@ class FetchableClient(object):
 
 
 
+    """
+    Private helper functions
+    """
 
-    #private functions
+
     def make_request(self, resource):
         """
         Makes request to Fetchable API and returns the response body.
@@ -218,3 +228,14 @@ class FetchableClient(object):
             "user-agent": self.user_agent
         }
         return header
+
+
+    def sanitise_parameter(self, param):
+        """
+        Sanitises parameters before sending them to the API, e.g.
+        if the arguments passed to the entity-attribute function are:
+        fetch_entity_atrribute("Empire State building", "Height")
+        it will transform to "empire_state_building" and "height" before sending.
+        """
+        
+        return param.replace(" ", "_").lower()

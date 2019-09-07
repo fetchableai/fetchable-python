@@ -1,5 +1,5 @@
 __name__ = 'fetchable'
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 __description__ = 'Client SDK for Fetchable'
 __url__ = 'https://fetchable.ai'
 __author__ = 'Fetchable'
