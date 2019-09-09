@@ -1,7 +1,6 @@
 __name__ = 'fetchable'
-__version__ = '0.1.4'
+__version__ = '0.1.5'
 __description__ = 'Client SDK for Fetchable'
-__url__ = 'https://fetchable.ai'
 __author__ = 'Fetchable'
 __author_email__ = 'support@fetchable.ai'
 __license__ = 'Apache License 2.0'

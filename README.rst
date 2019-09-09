@@ -74,7 +74,7 @@ The FetchableClient object allows you to set your own user-agent header, this ca
 
   from fetchable import FetchableClient
 
-  client = FetchableClient(user_agent='my-amazing-chatbot/0.1')
+  client = FetchableClient(user_agent='my-amazing-chatbot/0.1.0')
 
 
 3. Authentication credentials
@@ -123,7 +123,7 @@ This endpoint is used to fetch the attributes of entities in our index.
 
   client = FetchableClient()
 
-  entity_response = client.fetch_entity_atrribute("Mount Everest", "Elevation")
+  entity_response = client.fetch_entity_attribute("Mount Everest", "Elevation")
 
   if(entity_response['status_code']==200):
       print("The height of mount_everest is {} {}.".format(entity_response['value'], entity_response['unit']))

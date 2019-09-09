@@ -24,7 +24,7 @@ else:
 """
 fetch an entity - attribute value
 """
-entity_response = client.fetch_entity_atrribute("Mount Everest", "Elevation")
+entity_response = client.fetch_entity_attribute("Mount Everest", "Elevation")
 
 if(entity_response['status_code']==200):
     print("The height of mount_everest is {} {}.".format(entity_response['value'], entity_response['unit']))

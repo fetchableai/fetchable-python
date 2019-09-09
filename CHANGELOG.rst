@@ -52,3 +52,8 @@ Initial public release with:
 -----------------------------
 * Updated Github issue templates.
 * Added sanitisation of function parameters through private helper function, e.g. fetch_entity_atrribute("Empire State building", "Height") -> fetch_entity_atrribute("empire_state_building", "height").
+
+0.1.5 (Released Sept 9, 2019)
+-----------------------------
+* Changed public API by fixing misspelling in function, not making this a major change because we're in Alpha stage with no customers.
+* Changed project urls in setup.py

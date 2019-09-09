@@ -74,7 +74,7 @@ class FetchableClient(object):
         return self.make_request(None)
 
 
-    def fetch_entity_atrribute(self, entity, attribute):
+    def fetch_entity_attribute(self, entity, attribute):
         """
         Fetches an entity-attribute value from the index
 
@@ -237,5 +237,5 @@ class FetchableClient(object):
         fetch_entity_atrribute("Empire State building", "Height")
         it will transform to "empire_state_building" and "height" before sending.
         """
-        
+
         return param.replace(" ", "_").lower()
