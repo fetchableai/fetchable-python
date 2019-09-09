@@ -2,7 +2,7 @@
 import os
 from setuptools import setup, find_packages
 
-from fetchable.__version__ import __name__, __version__, __description__, __url__
+from fetchable.__version__ import __name__, __version__, __description__
 from fetchable.__version__ import __author__, __author_email__, __license__
 
 __url__ = ''

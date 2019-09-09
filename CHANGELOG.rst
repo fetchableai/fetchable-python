@@ -56,4 +56,4 @@ Initial public release with:
 0.1.5 (Released Sept 9, 2019)
 -----------------------------
 * Changed public API by fixing misspelling in function, not making this a major change because we're in Alpha stage with no customers.
-* Changed project urls in setup.py
+* Changed project urls in setup.py.
